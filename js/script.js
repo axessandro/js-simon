@@ -6,40 +6,95 @@
 
 //  IMPORT DATA
 // [*] import text-wrapper
-const textWrapper = document.getElementById("text-wrapper");
 // [*] import numbers-wrapper
+const textWrapper = document.getElementById("text-wrapper");
 const numbersWrapper = document.getElementById("numbers-wrapper");
+const scoreWrapper = document.getElementById("score-wrapper");
+const sameNumbers = document.getElementById("same-numbers");
 
 //  DATA TO GEN
-// [] generate let arrayUser = []
-// [] generate rndArray = randomArrayGen() 
+// [*] generate rndArray = randomArrayGen() 
+// [*] generate inBothArray
+const arrayCpu = randomArrayGen();
+console.log(arrayCpu);
+let inBothArray = [];
 
 //  EXECUTION
-// [] randomArrayGen()o on html
-// [] setTimeout (d-none, 6000)
-// [] setTimeout (ask-numbers, 6000)
+// [*] randomArrayGen()o on html
+for (let i = 0; i < arrayCpu.length; i++){
+    const thisNumber = arrayCpu[i];
+    const thisNumberWrapper = document.createElement("div");
+    thisNumberWrapper.classList.add("rnd-numbers");
+    thisNumberWrapper.append(thisNumber);
+    numbersWrapper.append(thisNumberWrapper);
+}
 
-//  PROCESSING DATA
-// [] dataProcessor(arrayUser, randomArraygen) 
+// [*] setTimeout (d-none, 6000)
+setTimeout(function () {
+    hideNumbers(textWrapper);
+}, 6000)
+
+// [*] setTimeout (ask-numbers, 6000)
+setTimeout(function() {
+    // [*] generate let arrayUser = []
+    let arrayUser = arrayUserFiller();
+    console.log(arrayUser);
+
+    //  PROCESSING DATA
+    for (let i = 0; i < arrayCpu.length; i++){
+        const thisNumber = arrayCpu[i];
+        if (arrayUser.includes(thisNumber)){
+            inBothArray.push(thisNumber)
+        }
+    }
+
+    scoreWrapper.innerHTML = `Your Score: ${inBothArray.length}`;
+    for (let i = 0; i < inBothArray.length; i++){
+        const thisNumber = inBothArray[i];
+        const thisNumberWrapper = document.createElement("div");
+        thisNumberWrapper.classList.add("matching-numbers");
+        thisNumberWrapper.append(thisNumber);
+        sameNumbers.append(thisNumberWrapper);
+    }
+
+}, 7000);
+
 
 // -------------FUNCTIONS--------------------------------------------
 
-// [] function d-none (text-wrapper)
 //  text-wrapper add class d-none
+function hideNumbers(textWrapper) {
+    textWrapper.classList.add("d-none")
+}
 
-// [] function ask-numbers (arrayUser)
-    //  while (userArray.length < 5)
-        //  generate const thisNumber = parseInt.prompt("dimmi un numero")
-        //  push thisNumber into arrayUser
-        //  i++
+/**
+ * Description: Generate filled array with 5 random numbers from 1 to 99
+ * @returns {Array} = randomArrayFilled  
+ */
+function randomArrayGen() {
+    const randomArrayFilled = [];
+    while (randomArrayFilled.length < 5){
+        const thisNumber = getRndInteger(1, 99);
+        if (!randomArrayFilled.includes(thisNumber)){
+            randomArrayFilled.push(thisNumber);
+        }
+    }
+    return randomArrayFilled;
+}
+function getRndInteger(min, max) {
+    return Math.floor(Math.random() * (max - min + 1) ) + min;
+}
 
-// [] function randomArrayGen()
-    //  generate let randomArrayFilled []
-    //  while (randomArrayFilled.length < 6)
-        //  generate const thisNumber = mathrandom(1,99) 
-        //  push thisNumber into array if not dupplicate
-        //  i++
-    //  @result = randomArrayFilled
-
-// [] function dataProcessor (arrayuser, arraycpu)
-    //  
+/**
+ * Description: fill userarray with prompt data
+ * @param {Array} arrayUser
+ * @returns {Array}
+ */
+function arrayUserFiller() {
+    let arrayUser = [];
+    while (arrayUser.length < 5) {
+        const thisNumber = parseInt(prompt("Dimmi un numero"));
+        arrayUser.push(thisNumber);
+    }
+    return arrayUser
+}

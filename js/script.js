@@ -5,8 +5,10 @@
 // ------------------------------------------------------------------
 
 //  IMPORT DATA
-// [] import text-wrapper
-// [] import numbers-wrapper
+// [*] import text-wrapper
+const textWrapper = document.getElementById("text-wrapper");
+// [*] import numbers-wrapper
+const numbersWrapper = document.getElementById("numbers-wrapper");
 
 //  DATA TO GEN
 // [] generate let arrayUser = []
